@@ -65,6 +65,7 @@
 #include "samplers/temporal/temporal_sampler_gauss.h"
 #include "samplers/temporal/temporal_sampler_mean.h"
 #include "samplers/temporal/temporal_sampler_sum.h"
+#include "samplers/temporal/temporal_sampler_linear.h"
 
 //Include coupling algorithms
 #include "samplers/algorithm/algo_fixed_relaxation.h"
@@ -119,6 +120,7 @@ namespace mui {
 		DECLARE_SAMPLER_0ARG(temporal_sampler_gauss,SUFFIX,config_##SUFFIX);\
 		DECLARE_SAMPLER_0ARG(temporal_sampler_sum,SUFFIX,config_##SUFFIX);\
 		DECLARE_SAMPLER_0ARG(temporal_sampler_mean,SUFFIX,config_##SUFFIX);\
+		DECLARE_SAMPLER_0ARG(temporal_sampler_linear,SUFFIX,config_##SUFFIX);\
 		DECLARE_SAMPLER_0ARG(algo_fixed_relaxation,SUFFIX,config_##SUFFIX);\
 		DECLARE_SAMPLER_0ARG(algo_aitken,SUFFIX,config_##SUFFIX);\
 		namespace geometry {\
@@ -160,6 +162,7 @@ SPECIALIZE(3fx,float,int64_t,3);
 		DECLARE_SAMPLER_0ARG(temporal_sampler_gauss,SUFFIX,CONFIG);\
 		DECLARE_SAMPLER_0ARG(temporal_sampler_sum,SUFFIX,CONFIG);\
 		DECLARE_SAMPLER_0ARG(temporal_sampler_mean,SUFFIX,CONFIG);\
+		DECLARE_SAMPLER_0ARG(temporal_sampler_linear,SUFFIX,CONFIG);\
 		DECLARE_SAMPLER_0ARG(algo_fixed_relaxation,SUFFIX,CONFIG);\
 		DECLARE_SAMPLER_0ARG(algo_aitken,SUFFIX,CONFIG);\
 		}
