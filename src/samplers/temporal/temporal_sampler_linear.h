@@ -59,7 +59,7 @@ public:
 	using time_type  	= typename CONFIG::time_type;
 	using iterator_type = typename CONFIG::iterator_type;
 	
-	temporal_sampler_linear(time_type dtNeighbour) {
+	temporal_sampler_linear(time_type dtNeighbour=time_type(0)) {
 		dtNeighbour_ = dtNeighbour;
 	}
 
@@ -95,7 +95,6 @@ public:
 		
 			if(followingFrame.first.first - previousFrame.first.first > 0){
 				TYPE gradient = (followingFrame.second - previousFrame.second)/(followingFrame.first.first - previousFrame.first.first);
-				std::cout << gradient << std::endl;
 				return previousFrame.second + (focus-previousFrame.first.first)*gradient;
 			}else{
 				return previousFrame.second;
@@ -117,7 +116,7 @@ public:
 		bool valueBeforeFound, valueAfterFound = false;
 		for( auto i: points ) {
 
-			time_type dt = focus - i.first.first;
+			time_type dt = focus.first - i.first.first;
 			if(dt >= 0 && dt < minimumFoundBefore){
 				minimumFoundBefore = dt;
 				previousFrame = i;
@@ -138,8 +137,7 @@ public:
 		
 			if(followingFrame.first.first - previousFrame.first.first > 0){
 				TYPE gradient = (followingFrame.second - previousFrame.second)/(followingFrame.first.first - previousFrame.first.first);
-				std::cout << gradient << std::endl;
-				return previousFrame.second + (focus-previousFrame.first.first)*gradient;
+				return previousFrame.second + (focus.first-previousFrame.first.first)*gradient;
 			}else{
 				return previousFrame.second;
 			}
@@ -150,15 +148,27 @@ public:
 	}
 
 	time_type get_upper_bound( time_type focus ) const {
-		return std::ceil(focus/dtNeighbour_)*dtNeighbour_;
+		if(dtNeighbour_ > 0){
+			return std::ceil(focus/dtNeighbour_)*dtNeighbour_;
+		}
+		else{
+			return std::numeric_limits<time_type>::max();
+		}
+
 	}
 
 	time_type get_lower_bound( time_type focus ) const {
-		return std::floor(focus/dtNeighbour_)*dtNeighbour_;
+		if(dtNeighbour_ > 0){
+			return std::floor(focus/dtNeighbour_)*dtNeighbour_;
+		}
+		else{
+			return std::numeric_limits<time_type>::lowest();
+		}
 	}
-	time_type tolerance() const {
-		return time_type(0);
-	}	
+
+	time_type get_barrier_time(time_type focus) const {
+		return focus;
+	}
 
 protected:
 	time_type dtNeighbour_;

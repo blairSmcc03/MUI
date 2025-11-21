@@ -87,3 +87,8 @@ class TemporalSamplerSum(TemporalSampler):
     def __init__(self, newleft=None, newright=None):
         super(TemporalSamplerSum, self).__init__(kwargs={"newleft": newleft, "newright": newright})
         self._ALLOWED_IO_TYPES = [UINT, UINT32, UINT64, INT, INT32, INT64, FLOAT, FLOAT32, FLOAT64]
+
+class TemporalSamplerLinear(TemporalSampler):
+    def __init__(self, dtNeighbour=0):
+        super(TemporalSamplerLinear, self).__init__(kwargs={"dtNeighbour": dtNeighbour})
+        self._ALLOWED_IO_TYPES = [UINT, UINT32, UINT64, INT, INT32, INT64, FLOAT, FLOAT32, FLOAT64]

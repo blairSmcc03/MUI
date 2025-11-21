@@ -105,6 +105,10 @@ public:
 		return focus - cutoff_;
 	}
 
+	time_type get_barrier_time(time_type focus) const {
+		return get_upper_bound(focus);
+	}
+
 	time_type tolerance() const {
 		return time_type(0);
 	}

@@ -55,5 +55,7 @@ std::string temporal_sampler_name()
     return "temporal_sum";
   if (std::is_same<Ttemporal<Tconfig>, mui::temporal_sampler_mean<Tconfig>>::value)
     return "temporal_mean";
+  if (std::is_same<Ttemporal<Tconfig>, mui::temporal_sampler_linear<Tconfig>>::value)
+    return "temporal_linear";
   throw std::runtime_error("Invalid temporal sampler type");
 }
