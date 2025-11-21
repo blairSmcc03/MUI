@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.27)
 project(mui4py)
 
 # Set C++ standard before finding pybind11
