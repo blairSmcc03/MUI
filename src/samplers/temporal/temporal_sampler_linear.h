@@ -38,86 +38,142 @@
 *****************************************************************************/
 
 /**
- * @file temporal_sampler_gauss.h
- * @author Y. H. Tang
- * @date 19 February 2014
- * @brief Temporal sampler that applies Gaussian interpolation and is
- * symmetric for past and future.
+ * @file temporal_sampler_mean.h
+ * @author B McCormick
+ * @date 19 November 2025
+ * @brief Temporal sampler that interpolates between the closest two dataframes
  */
 
-#ifndef MUI_TEMPORAL_SAMPLER_GAUSS_H_
-#define MUI_TEMPORAL_SAMPLER_GAUSS_H_
+#ifndef MUI_TEMPORAL_SAMPLER_LINEAR_H_
+#define MUI_TEMPORAL_SAMPLER_LINEAR_H_
 
 #include "../../general/util.h"
 #include "../../mui_config.h"
 
 namespace mui {
 
-template<typename CONFIG=default_config> class temporal_sampler_gauss {
+template<typename CONFIG=default_config> class temporal_sampler_linear {
 public:
 	using REAL       	= typename CONFIG::REAL;
 	using INT        	= typename CONFIG::INT;
 	using time_type  	= typename CONFIG::time_type;
-	using iterator_type	= typename CONFIG::iterator_type;
+	using iterator_type = typename CONFIG::iterator_type;
 	
-	temporal_sampler_gauss( time_type cutoff, REAL sigma ) {
-		sigma_  = sigma;
-		cutoff_ = cutoff;
+	temporal_sampler_linear(time_type dtNeighbour=time_type(0)) {
+		dtNeighbour_ = dtNeighbour;
 	}
 
-	//- Filter based on single time value
+	//- Filter based on time input
 	template<typename TYPE>
 	TYPE filter( time_type focus, const std::vector<std::pair<std::pair<time_type,iterator_type>, TYPE> > &points ) const {
-		REAL wsum = REAL(0);
-		TYPE vsum = TYPE(0);
+		// find closest dataframe before focus and after focus
+		std::pair<std::pair<time_type,iterator_type>, TYPE> previousFrame, followingFrame;
+		time_type  minimumFoundBefore = std::numeric_limits<double>::infinity();
+		time_type maximumFoundAfter = -1* std::numeric_limits<double>::infinity();
+
+		bool valueBeforeFound, valueAfterFound = false;
 		for( auto i: points ) {
-			time_type dt = std::abs(i.first.first - focus);
-			if ( dt < cutoff_ ) {
-				REAL w = pow( 2*PI*sigma_, -0.5 ) * exp( -0.5 * dt * dt / sigma_ );
-				vsum += i.second * w;
-				wsum += w;
+
+			time_type dt = focus - i.first.first;
+			if(dt >= 0 && dt < minimumFoundBefore){
+				minimumFoundBefore = dt;
+				previousFrame = i;
+				valueBeforeFound = true;
+			}
+			
+			if(dt <= 0 && dt > maximumFoundAfter){
+				maximumFoundAfter = dt;
+				followingFrame = i; 
+				valueAfterFound = true;
 			}
 		}
-		return ( wsum > std::numeric_limits<REAL>::epsilon() ) ? ( vsum / wsum ) : TYPE(0);
+
+		
+
+		if ( valueBeforeFound && valueAfterFound ){
+			// Linear interpolation
+		
+			if(followingFrame.first.first - previousFrame.first.first > 0){
+				TYPE gradient = (followingFrame.second - previousFrame.second)/(followingFrame.first.first - previousFrame.first.first);
+				return previousFrame.second + (focus-previousFrame.first.first)*gradient;
+			}else{
+				return previousFrame.second;
+			}
+		}
+		else {
+			return TYPE(0);
+		}
 	}
 
-	//- Filter based on two time values
+	//- Filter based on time and iterator input - only time used
 	template<typename TYPE>
 	TYPE filter( std::pair<time_type,iterator_type> focus, const std::vector<std::pair<std::pair<time_type,iterator_type>, TYPE> > &points ) const {
-		REAL wsum = REAL(0);
-		TYPE vsum = TYPE(0);
+		// find closest dataframe before focus and after focus
+		std::pair<std::pair<time_type,iterator_type>, TYPE> previousFrame, followingFrame;
+		time_type  minimumFoundBefore = std::numeric_limits<double>::infinity();
+		time_type maximumFoundAfter = -1* std::numeric_limits<double>::infinity();
+
+		bool valueBeforeFound, valueAfterFound = false;
 		for( auto i: points ) {
-			time_type dt1 = std::abs(i.first.first - focus.first);
-			if ( dt1 < cutoff_ ) {
-				REAL w = pow( 2*PI*sigma_, -0.5 ) * exp( -0.5 * dt1 * dt1 / sigma_ );
-				vsum += i.second * w;
-				wsum += w;
+
+			time_type dt = focus.first - i.first.first;
+			if(dt >= 0 && dt < minimumFoundBefore){
+				minimumFoundBefore = dt;
+				previousFrame = i;
+				valueBeforeFound = true;
+			}
+			
+			if(dt <= 0 && dt > maximumFoundAfter){
+				maximumFoundAfter = dt;
+				followingFrame = i; 
+				valueAfterFound = true;
 			}
 		}
-		return ( wsum > std::numeric_limits<REAL>::epsilon() ) ? ( vsum / wsum ) : TYPE(0);
+
+		
+
+		if ( valueBeforeFound && valueAfterFound ){
+			// Linear interpolation
+		
+			if(followingFrame.first.first - previousFrame.first.first > 0){
+				TYPE gradient = (followingFrame.second - previousFrame.second)/(followingFrame.first.first - previousFrame.first.first);
+				return previousFrame.second + (focus.first-previousFrame.first.first)*gradient;
+			}else{
+				return previousFrame.second;
+			}
+		}
+		else {
+			return TYPE(0);
+		}
 	}
 
 	time_type get_upper_bound( time_type focus ) const {
-		return focus + cutoff_;
+		if(dtNeighbour_ > 0){
+			return std::ceil(focus/dtNeighbour_)*dtNeighbour_;
+		}
+		else{
+			return std::numeric_limits<time_type>::max();
+		}
+
 	}
 
 	time_type get_lower_bound( time_type focus ) const {
-		return focus - cutoff_;
+		if(dtNeighbour_ > 0){
+			return std::floor(focus/dtNeighbour_)*dtNeighbour_;
+		}
+		else{
+			return std::numeric_limits<time_type>::lowest();
+		}
 	}
 
 	time_type get_barrier_time(time_type focus) const {
-		return get_upper_bound(focus);
-	}
-
-	time_type tolerance() const {
-		return time_type(0);
+		return focus;
 	}
 
 protected:
-	time_type cutoff_;
-	REAL sigma_;
+	time_type dtNeighbour_;
 };
 
 }
 
-#endif /* MUI_TEMPORAL_SAMPLER_GAUSS_H_ */
+#endif /* MUI_TEMPORAL_SAMPLER_SUM_H_ */

@@ -107,6 +107,11 @@ public:
 		return focus;
 	}
 
+
+	time_type get_barrier_time(time_type focus) const {
+		return get_upper_bound(focus);
+	}
+
 private:
 	time_type tolerance_time;
 	time_type tolerance_it;

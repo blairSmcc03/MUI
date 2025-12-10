@@ -451,7 +451,7 @@ public:
 		   ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t
 		if( fetch_t_hist_ != t && barrier_enabled )
-			barrier(t_sampler.get_upper_bound(t));
+			barrier(t_sampler.get_barrier_time(t));
 
 		fetch_t_hist_ = t;
 
@@ -464,7 +464,6 @@ public:
 		auto end = log.upper_bound(curr_time_upper);
 
 		if( log.size() == 1 ) end = log.end();
-
 		for( auto start = log.lower_bound(curr_time_lower); start != end; ++start ) {
 			const auto& iter = start->second.find(attr);
 			if( iter == start->second.end() ) continue;
@@ -483,7 +482,7 @@ public:
 		   ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t,iteration=it
 		if((fetch_t_hist_ != t || fetch_i_hist_ != it) && barrier_enabled)
-			barrier(t_sampler.get_upper_bound(t),t_sampler.get_upper_bound(it));
+			barrier(t_sampler.get_barrier_time(t),t_sampler.get_barrier_time(it));
 
 		fetch_t_hist_ = t;
 		fetch_i_hist_ = it;
@@ -516,7 +515,7 @@ public:
 		   bool barrier_enabled = true, ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t
 		if( fetch_t_hist_ != t && barrier_enabled )
-			barrier(t_sampler.get_upper_bound(t));
+			barrier(t_sampler.get_barrier_time(t));
 
 		fetch_t_hist_ = t;
 
@@ -548,7 +547,7 @@ public:
 		   bool barrier_enabled = true, ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t,iteration=it
 		if((fetch_t_hist_ != t || fetch_i_hist_ != it) && barrier_enabled)
-			barrier(t_sampler.get_upper_bound(t),t_sampler.get_upper_bound(it));
+			barrier(t_sampler.get_barrier_time(t),t_sampler.get_barrier_time(it));
 
 		fetch_t_hist_ = t;
 		fetch_i_hist_ = it;
@@ -580,7 +579,7 @@ public:
 				  const TIME_SAMPLER &t_sampler, bool barrier_enabled = true, ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t
 		if( fetch_t_hist_ != t && barrier_enabled )
-			barrier(t_sampler.get_upper_bound(t));
+			barrier(t_sampler.get_barrier_time(t));
 
 		fetch_t_hist_ = t;
 
@@ -617,7 +616,7 @@ public:
 				  const TIME_SAMPLER &t_sampler, bool barrier_enabled = true, ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t,iteration=it
 		if( fetch_t_hist_ != t && fetch_i_hist_ != it && barrier_enabled)
-			barrier(t_sampler.get_upper_bound(t),t_sampler.get_upper_bound(it));
+			barrier(t_sampler.get_barrier_time(t), t_sampler.get_barrier_time(it));
 
 		fetch_t_hist_ = t;
 		fetch_i_hist_ = it;
@@ -656,7 +655,7 @@ public:
 				  const TIME_SAMPLER &t_sampler, bool barrier_enabled = true, ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t,iteration=it
 		if( fetch_t_hist_ != t && barrier_enabled )
-			barrier(t_sampler.get_upper_bound(t));
+			barrier(t_sampler.get_barrier_time(t));
 
 		fetch_t_hist_ = t;
 
@@ -693,7 +692,7 @@ public:
 				  const TIME_SAMPLER &t_sampler, bool barrier_enabled = true, ADDITIONAL && ... additional ) {
 		// Only enter barrier on first fetch for time=t,iteration=it
 		if( fetch_t_hist_ != t && fetch_i_hist_ != it && barrier_enabled)
-			barrier(t_sampler.get_upper_bound(t),t_sampler.get_upper_bound(it));
+			barrier(t_sampler.get_barrier_time(t), t_sampler.get_barrier_time(it));
 
 		fetch_t_hist_ = t;
 		fetch_i_hist_ = it;

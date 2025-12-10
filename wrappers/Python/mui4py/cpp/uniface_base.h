@@ -332,26 +332,32 @@ void declare_uniface_fetch_all_temporal(py::class_<mui::uniface<Tconfig>> &unifa
   declare_uniface_fetch<Tconfig, T, Tsampler, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch<Tconfig, T, Tsampler, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch<Tconfig, T, Tsampler, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch<Tconfig, T, Tsampler, mui::temporal_sampler_linear>(uniface);
 
   declare_uniface_fetch_dual<Tconfig, T, Tsampler, mui::temporal_sampler_exact>(uniface);
   declare_uniface_fetch_dual<Tconfig, T, Tsampler, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_dual<Tconfig, T, Tsampler, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_dual<Tconfig, T, Tsampler, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_dual<Tconfig, T, Tsampler, mui::temporal_sampler_linear>(uniface);
 
   declare_uniface_fetch_many<Tconfig, T, Tsampler, mui::temporal_sampler_exact>(uniface);
   declare_uniface_fetch_many<Tconfig, T, Tsampler, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_many<Tconfig, T, Tsampler, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_many<Tconfig, T, Tsampler, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_many<Tconfig, T, Tsampler, mui::temporal_sampler_linear>(uniface);
 
   declare_uniface_fetch_many_dual<Tconfig, T, Tsampler, mui::temporal_sampler_exact>(uniface);
   declare_uniface_fetch_many_dual<Tconfig, T, Tsampler, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_many_dual<Tconfig, T, Tsampler, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_many_dual<Tconfig, T, Tsampler, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_many_dual<Tconfig, T, Tsampler, mui::temporal_sampler_linear>(uniface);
+  
 
   declare_uniface_fetch_all_algorithm<Tconfig, T, Tsampler, mui::temporal_sampler_exact>(uniface);
   declare_uniface_fetch_all_algorithm<Tconfig, T, Tsampler, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_all_algorithm<Tconfig, T, Tsampler, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_all_algorithm<Tconfig, T, Tsampler, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_all_algorithm<Tconfig, T, Tsampler, mui::temporal_sampler_linear>(uniface);
 }
 
 template <typename Tconfig, typename T>
@@ -362,21 +368,25 @@ void declare_uniface_fetch_points_values_temporal(py::class_<mui::uniface<Tconfi
   declare_uniface_fetch_points<Tconfig, T, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_points<Tconfig, T, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_points<Tconfig, T, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_points<Tconfig, T, mui::temporal_sampler_linear>(uniface);
 
   declare_uniface_fetch_points_dual<Tconfig, T, mui::temporal_sampler_exact>(uniface);
   declare_uniface_fetch_points_dual<Tconfig, T, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_points_dual<Tconfig, T, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_points_dual<Tconfig, T, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_points_dual<Tconfig, T, mui::temporal_sampler_linear>(uniface);
 
   declare_uniface_fetch_values<Tconfig, T, mui::temporal_sampler_exact>(uniface);
   declare_uniface_fetch_values<Tconfig, T, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_values<Tconfig, T, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_values<Tconfig, T, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_values<Tconfig, T, mui::temporal_sampler_linear>(uniface);
 
   declare_uniface_fetch_values_dual<Tconfig, T, mui::temporal_sampler_exact>(uniface);
   declare_uniface_fetch_values_dual<Tconfig, T, mui::temporal_sampler_gauss>(uniface);
   declare_uniface_fetch_values_dual<Tconfig, T, mui::temporal_sampler_mean>(uniface);
   declare_uniface_fetch_values_dual<Tconfig, T, mui::temporal_sampler_sum>(uniface);
+  declare_uniface_fetch_values_dual<Tconfig, T, mui::temporal_sampler_linear>(uniface);
 }
 
 template <typename Tconfig, typename T>

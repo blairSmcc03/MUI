@@ -76,6 +76,10 @@ void declare_temporal_samplers(py::module &m)
     py::class_<Tclass>(m, name.c_str())
         .def(py::init<Ttime, Ttime>(), py::arg("newleft") = Ttime(0),
              py::arg("newright") = Ttime(0));
+
+    name = "_Temporal_sampler_linear" + config_name<Tconfig>();
+    py::class_<mui::temporal_sampler_linear<Tconfig>>(m, name.c_str())
+        .def(py::init<Ttime>(), py::arg("dtNeighbour") = Ttime(0));
 }
 
 void temporal_sampler(py::module &m)
