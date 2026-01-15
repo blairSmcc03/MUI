@@ -192,10 +192,14 @@ typedef mui::temporal_sampler_sum1dx mui_temporal_sampler_sum_1dx;
 
 // Summation temporal sampler typedefs for template creation (recommended)
 typedef mui::temporal_sampler_sum<mui::mui_f_wrapper_1D> mui_temporal_sampler_sum_1t;
+
+// Linear temporal sampler typedefs for specialism creation
 typedef mui::temporal_sampler_linear1f mui_temporal_sampler_linear_1f;
 typedef mui::temporal_sampler_linear1fx mui_temporal_sampler_linear_1fx;
 typedef mui::temporal_sampler_linear1d mui_temporal_sampler_linear_1d;
 typedef mui::temporal_sampler_linear1dx mui_temporal_sampler_linear_1dx;
+
+// Linear temporal sampler typedefs for template creation (recommended)
 typedef mui::temporal_sampler_linear<mui::mui_f_wrapper_1D> mui_temporal_sampler_linear_1t;
 
 
